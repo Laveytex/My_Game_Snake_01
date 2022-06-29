@@ -29,4 +29,9 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+
+
+	UFUNCTION(BlueprintNativeEvent)
+	void SetFirstElementType();
+	void SetFirstElementType_Implenentation();
 };

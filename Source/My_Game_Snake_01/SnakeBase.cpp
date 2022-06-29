@@ -13,7 +13,7 @@ ASnakeBase::ASnakeBase()
 	PrimaryActorTick.bCanEverTick = true;
 	ElementSize = 100.f;
 	MovementSpeed = 10.0f;
-	LastMoveDirection = EMovementDirection::UP;
+	LastMoveDirection = EMovementDirection::DOWN;
 }
 
 // Called when the game starts or when spawned
@@ -34,12 +34,16 @@ void ASnakeBase::Tick(float DeltaTime)
 
 void ASnakeBase::AddSnakeElement(int ElementsNum)
 {
-	for(int i=0;i<ElementsNum;i++)
+	for(int i=0;i<ElementsNum;++i)
 	{
 		FVector NewLocation(SnakeElements.Num()*ElementSize,0,0);
 		FTransform NewTransform(NewLocation);
 		ASnakeElementBase* NewSnakeElem = GetWorld()->SpawnActor<ASnakeElementBase>(SnakeElementClass,NewTransform);
-		SnakeElements.Add(NewSnakeElem);
+		int32 ElemIndex = SnakeElements.Add(NewSnakeElem);
+		if(ElemIndex==0)
+		{
+			NewSnakeElem->SetFirstElementType();
+		}
 	}
 	
 	
@@ -48,7 +52,8 @@ void ASnakeBase::AddSnakeElement(int ElementsNum)
 void ASnakeBase::Move()
 {
 	
-	FVector MovementVector;
+	FVector MovementVector(ForceInitToZero);
+		
 	float MovementSpeedDelta = ElementSize;
 	
 	switch (LastMoveDirection)
