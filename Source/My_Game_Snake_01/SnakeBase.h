@@ -5,7 +5,9 @@
 #include "CoreMinimal.h"
 //#include "SnakeElementBase.h"
 #include "GameFramework/Actor.h"
+#include "SnakeBase.h"
 #include "SnakeBase.generated.h"
+
 
 class ASnakeElementBase;
 
@@ -56,5 +58,7 @@ public:
 
 
 	void Move();
-	
+
+	UFUNCTION()
+	void SnakeElementOverlap(ASnakeElementBase* OverlappedElement, AActor*Other);
 };
